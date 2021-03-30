@@ -1,0 +1,26 @@
+@import url(./_inactive/submit-button_inactive.css);
+
+.submit-button {
+    width: 358px;
+    height: 50.15px;
+    margin: 33px auto 36.5px;
+    background: #000000;
+    border-radius: 2px;
+    color: white;
+    font-size: 18px;
+    line-height: 22px;
+    text-align: center;
+    padding: 0;
+    border: none;
+}
+
+.submit-button:hover {
+    background: rgba(0, 0, 0, 0.8);
+}
+
+@media screen and (max-width: 575px) {
+    .submit-button {
+        width: 200px;
+        margin: 0 auto 5px;
+    }
+}

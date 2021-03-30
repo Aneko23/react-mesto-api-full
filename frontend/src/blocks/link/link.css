@@ -1,0 +1,6 @@
+@import url(./__exit/link__exit.css);
+@import url(./_active/link_active.css);
+
+.link {
+    display: none;
+}

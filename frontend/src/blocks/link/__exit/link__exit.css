@@ -1,0 +1,9 @@
+.link__exit_active {
+    display: block;
+    border: none;
+    background-color: transparent;
+    color: #A9A9A9;
+    text-decoration: none;
+    font-size: 18px;
+    align-self: center;
+}

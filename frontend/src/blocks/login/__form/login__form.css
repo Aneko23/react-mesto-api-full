@@ -1,0 +1,6 @@
+.login__form {
+    align-items: center;
+    width: 356px;
+    display: flex;
+    flex-direction: column;
+}

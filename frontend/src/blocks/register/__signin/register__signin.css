@@ -1,0 +1,10 @@
+.register__signin {
+    display: flex;
+    flex-direction: row;
+    color: white;
+    font-size: 14px;
+    height: 17px;
+    align-items: center;
+    gap: 10px;
+    margin: 15px auto 0;
+}

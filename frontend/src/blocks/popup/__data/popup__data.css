@@ -1,0 +1,19 @@
+@import url(./_error/popup__data_error.css);
+
+.popup__data {
+    font-size: 14px;
+    line-height: 17px;
+    color: #000000;
+    border: none;
+    border-bottom: 1px solid rgba(0,0,0,0.2);
+    width: 358px;
+    margin: 30px auto 0;
+    padding-bottom: 13px;
+}
+
+@media screen and (max-width: 575px) {
+    .popup__data {
+        width: 230px;
+        margin: 0 auto 15px;
+    }
+}

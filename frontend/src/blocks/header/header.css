@@ -1,0 +1,26 @@
+@import url(./__logo/header__logo.css);
+@import url(./__line/header__line.css);
+
+.header-container {
+    max-width: 880px;
+    margin: 0 auto 0;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+
+}
+
+.container {
+    display: flex;
+    align-content: center;
+    justify-content: right;
+
+}
+
+@media screen and (max-width: 575px) {
+    .link {
+        font-size: 14px;
+    }
+}

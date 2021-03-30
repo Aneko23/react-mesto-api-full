@@ -1,0 +1,18 @@
+.button-like {
+    border: 0;
+    padding: 0;
+    height: 18.13px;
+    width: 20.76px;
+    background-image: url(../../images/like.svg);
+    margin-right: 22px;
+    background-color: white;
+    align-self: center;
+}
+
+.button-like:hover {
+    opacity: 0.6;
+}
+
+.button-like_active {
+    background-image: url(../../images/like-Active.svg);
+}

@@ -1,0 +1,11 @@
+.register__data {
+    width: 352px;
+    background-color: black;
+    color: #CCCCCC;;
+    border-bottom: 2px solid #CCCCCC;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    margin: 0 auto 30px;
+    font-size: 14px;
+}

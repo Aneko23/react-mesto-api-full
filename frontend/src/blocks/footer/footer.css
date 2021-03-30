@@ -1,0 +1,7 @@
+@import url(./__site/footer__site.css);
+
+.footer {
+    max-width: 882px;
+    justify-content: start;
+    margin: 66px auto 60px;
+}

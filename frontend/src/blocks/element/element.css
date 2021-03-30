@@ -1,0 +1,32 @@
+@import url(./__image/element__image.css);
+@import url(./__name/element__name.css);
+@import url(./__detail/element__detail.css);
+
+.element {
+    width: 282px;
+    height: 361px;
+    border-radius: 10px;
+    background-color: white;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.element__card {
+    position: relative;
+    border-radius: 10px;
+    background-color: white;
+}
+
+.element__likes {
+    display: flex;
+    flex-direction: column;
+    margin-top: 21px;
+    margin-left: 21px;
+    align-items: center;
+}
+
+.like-counter {
+    margin: 3px 22px 0 0;
+    font-size: 13px;
+}

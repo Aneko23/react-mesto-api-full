@@ -1,0 +1,16 @@
+.popup__box {
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    position: relative;
+    margin-top: 90px;
+    margin-right: auto;
+    margin-left: auto;
+    max-width: 85%;
+}
+
+@media screen and (max-width: 575px) {
+    .popup__box {
+        margin-top: 136px;
+    }
+}

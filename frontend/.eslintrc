@@ -1,0 +1,14 @@
+{
+  "extends": "airbnb-base",
+  "rules": {
+    "no-underscore-dangle" : ["error", { "allow": ["_id", "_cohortId", "_adress", "_token", "_getResponseData"] }],
+    "arrow-body-style": ["error", "always"],
+    "class-methods-use-this": ["error", { "exceptMethods": ["_getResponseData"] }],
+    "prefer-promise-reject-errors": ["error", "always"],
+    "object-shorthand": ["error", "always"]
+  },
+  "parser": "babel-eslint",
+  "globals": {
+    "fetch": false
+  }
+}
