@@ -1,4 +1,5 @@
 import React from 'react';
+import { Route, Switch, Redirect, useHistory } from 'react-router-dom';
 import '../index.css';
 import Header from './Header';
 import Main from './Main';
@@ -10,7 +11,6 @@ import AddPlacePopup from './AddPlacePopup';
 import EditAvatarPopup from './EditAvatarPopup';
 import DeleteCardPopup from './DeleteCardPopup';
 import { CurrentUserContext } from '../contexts/CurrentUserContext';
-import { Route, Switch, Redirect, useHistory } from 'react-router-dom';
 import ProtectedRoute from './ProtectedRoute';
 import Login from './Login';
 import Register from './Register';
@@ -246,9 +246,9 @@ export default function App() {
 
   return (
     <CurrentUserContext.Provider value={currentUser}>
-      <Switch>
-        <div className="root">
-          <div className="page">
+          <Switch>
+          <div className="root">
+            <div className="page">
             <Header userEmail={userEmail} handleLogOut={handleLogOut} />
             <Route path="/sign-in">
               <Login handleLogin={handleLogin} />
@@ -282,8 +282,8 @@ export default function App() {
               {loggedIn ? <Redirect to="/cards" /> : <Redirect to="/sign-in" />}
             </Route>
             <Footer />
-          </div>
-        </div>
+            </div>
+      </div>
       </Switch>
     </CurrentUserContext.Provider>
   );

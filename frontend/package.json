@@ -1,17 +1,16 @@
 {
-  "name": "react-mesto-auth",
+  "name": "frontend",
   "version": "1.0.0",
-  "description": "Используйте ваши предыдущие наработки по проекту Mesto. Это может быть работа 11-го спринта или его улучшенная версия после 2-х последних спринтов.",
+  "description": "Данное приложение разработано при помощи инструмента для разработки пользовательских интерфейсов React. Приложение представляет собой небольшую социальную сеть, где пользователи могут создавать свои профили и делиться любимыми фото и гиф-анимацией.",
   "main": "index.js",
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build"
+    "start": "react-scripts start"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "react": "^17.0.1",
-    "react-dom": "^17.0.1",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
     "react-router-dom": "^5.2.0",
     "react-scripts": "^4.0.3",
     "web-vitals": "^1.1.1"

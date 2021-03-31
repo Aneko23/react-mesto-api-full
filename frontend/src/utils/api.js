@@ -13,7 +13,7 @@ class Api {
     } 
 
     addCard(name, link) {
-        return fetch(`${this._adress}/v1/${this._cohortId}/cards`, {
+        return fetch(`${this._adress}/cards`, {
             method: 'POST',
             headers: {
                 authorization: this._token,
@@ -28,7 +28,7 @@ class Api {
     }
 
     deleteCard(id) {
-        return fetch(`${this._adress}/v1/${this._cohortId}/cards/${id}`, {
+        return fetch(`${this._adress}/cards/${id}`, {
             method: "DELETE",
             headers: {
                 authorization: this._token
@@ -39,7 +39,9 @@ class Api {
         
 
     getCards() {
-        return fetch(`${this._adress}/v1/${this._cohortId}/cards`, {
+        return fetch(`${this._adress}/cards`, {
+            // mode: 'no-cors',
+            method: 'GET',
             headers: {
                 authorization: this._token
               }
@@ -54,7 +56,8 @@ class Api {
     }
 
     getUserProfile() {
-        return fetch(`${this._adress}/v1/${this._cohortId}/users/me`, {
+        return fetch(`${this._adress}/users/me`, {
+        // mode: 'no-cors',   
         method: 'GET',
         headers: {
             authorization: this._token
@@ -64,7 +67,8 @@ class Api {
   }
 
   setUserProfile(name, about) {
-    return fetch(`${this._adress}/v1/${this._cohortId}/users/me`, {
+    return fetch(`${this._adress}/users/me`, {
+        // mode: 'no-cors',
         method: 'PATCH',
         headers: {
             authorization: this._token,
@@ -79,7 +83,7 @@ class Api {
   }
 
   clickLike(id, isLiked) {
-    return fetch(`${this._adress}/v1/${this._cohortId}/cards/likes/${id}`, {
+    return fetch(`${this._adress}/cards/likes/${id}`, {
         method: (isLiked) ? 'DELETE' : 'PUT',
         headers: {
             authorization: this._token,
@@ -90,7 +94,7 @@ class Api {
   }
 
   changeUserAvatar(avatar) {
-    return fetch(`${this._adress}/v1/${this._cohortId}/users/me/avatar`, {
+    return fetch(`${this._adress}/users/me/avatar`, {
         method: 'PATCH',
         headers: {
             authorization: this._token,
@@ -107,7 +111,7 @@ class Api {
 }
 
 const api = new Api ({
-    adress: 'https://mesto.nomoreparties.co',
+    adress: 'http://localhost:3000',
     token: '31529348-ed42-4e11-a759-e58383781ff0',
     cohortId : `cohort-18`
 }) 

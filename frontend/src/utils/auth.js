@@ -20,11 +20,13 @@ export const register = (password, email) => {
   
   export const authorize = (email, password) => {
     return fetch(`${BASE_URL}/signin`, {
+      // mode: 'no-cors',
       method: 'POST',
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json'
       },
+      credentials: 'include',
       body: JSON.stringify({email, password})
     })
     .then((res) => {
