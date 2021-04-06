@@ -1,5 +1,25 @@
 const mongoose = require('mongoose');
 
+// Схема owner
+const ownerSchema = new mongoose.Schema({
+  name: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'user',
+  },
+  about: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'user',
+  },
+  avatar: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'user',
+  },
+  _id: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'user',
+  }
+})
+
 // Схема карточки
 const cardSchema = new mongoose.Schema({
   name: {
@@ -32,6 +52,7 @@ const cardSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
+  //owner: ownerSchema
 });
 
 module.exports = mongoose.model('card', cardSchema);

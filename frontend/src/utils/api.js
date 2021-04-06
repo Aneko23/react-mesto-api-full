@@ -1,8 +1,7 @@
 class Api {
-    constructor({adress, token, cohortId}) {
-        this._token = token;
+    constructor({adress, token}) {
         this._adress = adress;
-        this._cohortId = cohortId;
+        this._token = token
     }
 
     _getResponseData(res) {
@@ -40,7 +39,6 @@ class Api {
 
     getCards() {
         return fetch(`${this._adress}/cards`, {
-            // mode: 'no-cors',
             method: 'GET',
             headers: {
                 authorization: this._token
@@ -57,7 +55,6 @@ class Api {
 
     getUserProfile() {
         return fetch(`${this._adress}/users/me`, {
-        // mode: 'no-cors',   
         method: 'GET',
         headers: {
             authorization: this._token
@@ -68,7 +65,6 @@ class Api {
 
   setUserProfile(name, about) {
     return fetch(`${this._adress}/users/me`, {
-        // mode: 'no-cors',
         method: 'PATCH',
         headers: {
             authorization: this._token,
@@ -83,7 +79,7 @@ class Api {
   }
 
   clickLike(id, isLiked) {
-    return fetch(`${this._adress}/cards/likes/${id}`, {
+    return fetch(`${this._adress}/cards/${id}/likes`, {
         method: (isLiked) ? 'DELETE' : 'PUT',
         headers: {
             authorization: this._token,
@@ -110,10 +106,11 @@ class Api {
 
 }
 
+const token = localStorage.getItem('jwt');
+
 const api = new Api ({
     adress: 'http://localhost:3000',
-    token: '31529348-ed42-4e11-a759-e58383781ff0',
-    cohortId : `cohort-18`
+    token: `Bearer ${token}`
 }) 
 
 export default api;

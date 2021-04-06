@@ -12,56 +12,28 @@ const auth = require('./middlewares/auth');
 const app = express();
 const { PORT = 3000 } = process.env;
 
-// const cors = require('cors');
+const cors = require('cors');
+
 /*
 const options = {
-  origin: [
-  'http://localhost:3001',
-//'https://ваш домен с документа',
-//'https://your-name-of.github.io',
-  ],
-  methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE'],
-  preflightContinue: false,
-  optionsSuccessStatus: 204,
-  allowedHeaders: ['Content-Type', 'origin', 'Authorization'],
-  credentials: true,
+origin: [
+'http://localhost:3000/',
+'http://localhost:3001/',
+'http://localhost:8080'
+],
+methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE'],
+preflightContinue: false,
+optionsSuccessStatus: 204,
+allowedHeaders: ['Content-Type', 'origin', 'Authorization', 'Access-Control-Allow-Origin'],
+credentials: true,
 };
+
+app.use('*', cors(options));
 */
 
-// app.use('*', cors());
+app.use(cors());
 
-/*
-app.use((req, res, next) => {
-  res.header({
-    "Access-Control-Allow-Origin" : "http://localhost:3001",
-    "Access-Control-Allow-Methods" : "GET, PUT, DELETE, PATCH, POST"
-  })
-})
-*/
-
-const allowedCors = [
-  'https://praktikum.tk',
-  'http://praktikum.tk',
-  'http://localhost:3001'
-];
-
-app.use(function(req, res, next) {
-  const { origin } = req.headers; // Записываем в переменную origin соответствующий заголовок
-
-  if (allowedCors.includes(origin)) { // Проверяем, что значение origin есть среди разрешённых доменов
-    res.header('Access-Control-Allow-Origin', origin);
-  }
-
-  next();
-});
-
-app.use(function(req, res, next) {
-  res.header('Access-Control-Allow-Origin', 'http://localhost:3001');
-  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
-  res.header('Access-Control-Allow-Methods', 'GET,HEAD,PUT,PATCH,POST,DELETE');
-
-  next();
-});
+// app.use(express.static('public'));
 
 mongoose.connect('mongodb://localhost:27017/mestodb', {
   useNewUrlParser: true,
@@ -71,16 +43,9 @@ mongoose.connect('mongodb://localhost:27017/mestodb', {
 })
   .catch((error) => console.log(error));
 
-  app.use(function(req, res, next) {
-    res.header('Access-Control-Allow-Origin', 'https://http://localhost:3001');
-    next();
-  });
-
 app.use(bodyParcer.json());
 
 app.use(requestLogger);
-
-// app.use('/', express.static('../frontend/public'));
 
 app.post('/signin', celebrate({
   body: Joi.object().keys({

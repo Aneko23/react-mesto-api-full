@@ -37,7 +37,7 @@ export default function App() {
   // Проверяю токен прикаждом обновлении
   React.useEffect(() => {
     tokenCheck();
-  }, [])
+  }, [history])
 
   // Перевожу на страницу, если пользователь зарегистрирован
   React.useEffect(() => {
@@ -69,9 +69,11 @@ export default function App() {
   const handleLogin = (email, password) => {
     auth.authorize(email, password)
         .then((data) => {
+          console.log(data)
             localStorage.setItem('jwt', data.token);
             setLoggedIn(true);
             setUserEmail(email);
+            setCurrentUser(data.user);
             history.push('/cards');
         })
         .catch((error) => {
@@ -85,7 +87,6 @@ export default function App() {
     if (jwt) {
       auth.getContent(jwt).then((res) => {
         if (res){
-          setUserEmail(res.data.email);
           history.push('/cards');
         }
       }); 
@@ -94,11 +95,24 @@ export default function App() {
     }
   }
 
+  //Получаю данные пользователя с сервера
+  React.useEffect(() => {
+    api.getUserProfile()
+    .then(res => {
+      setCurrentUser(res.data);
+      setUserEmail(res.data.email);
+    })
+    .catch((error) => {
+        console.log(`Возникла ошибка: ${error}`)
+    })
+  }, []);
+
   // Функция выхода из приложения
   const handleLogOut = () => {
     const jwt = localStorage.getItem('jwt');
     localStorage.removeItem('jwt');
-    history.push('/sign-in')
+
+    history.push('/sign-in');
   }
 
   // Закрываю попапы
@@ -109,7 +123,6 @@ export default function App() {
       setAddPlacePopupOpen(false);
       setDeleteCardPopupOpen(false);
       setResultSuccess(false);
-      //setResultFail(false);
       setPopupOpen(false);
     }
   }, [onClose])
@@ -118,7 +131,7 @@ export default function App() {
     React.useEffect(() => {
       api.getCards()
       .then(res => {
-          setCards(res)
+        setCards(res.reverse())
       })
       .catch((error) => {
           console.log(`Возникла ошибка: ${error}`)
@@ -127,10 +140,12 @@ export default function App() {
   
 //Функция для клика по сердечку
     function handleCardLike(card) {
-      const isLiked = card.likes.some(i => i._id === currentUser._id);
+      const isLiked = card.likes.some(function(elem){
+        return elem === currentUser._id
+      });
       api.clickLike(card._id, isLiked)
       .then((newCard) => {
-        const newCards = cards.map((c) => c._id === card._id ? newCard : c);
+        const newCards = cards.map(c => c._id === card._id ? newCard : c);
         setCards(newCards);
       })
       .catch((error) => {
@@ -158,17 +173,6 @@ export default function App() {
               console.log(`Возникла ошибка: ${error}`)
           });
       }
-
-//Получаю данные пользователя с сервера
-  React.useEffect(() => {
-    api.getUserProfile()
-    .then(res => {
-      setCurrentUser(res)
-    })
-    .catch((error) => {
-        console.log(`Возникла ошибка: ${error}`)
-    })
-  }, []);
   
 //Функция для открытия попапа с картинкой
   function handleCardClick(card) {
@@ -260,7 +264,7 @@ export default function App() {
             </Route>
             <ProtectedRoute path="/cards" loggedIn={loggedIn} component={Main, EditProfilePopup, AddPlacePopup, EditAvatarPopup, DeleteCardPopup} />
             <Route path="/cards">
-              <Main 
+              <Main
                 cards={cards}
                 onAddPlace={handleAddPlaceClick} 
                 onEditProfile={handleEditProfileClick} 

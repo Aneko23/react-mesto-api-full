@@ -6,15 +6,17 @@ const ForbiddenError = require('../error/forbidden-error');
 // Получение списка всех карточек
 module.exports.getCards = (req, res) => {
   Card.find({})
-    .then((users) => res.status(200).send(users))
+    .populate('owner')
+    .then((cards) => res.status(200).send(cards))
     .catch((err) => res.status(500).send({ message: err }));
 };
 
 // Создание карточки
 module.exports.createCard = (req, res, next) => {
+  const owner = req.user._id;
   const { name, link } = req.body;
-  Card.create({ name, link, owner: req.user._id })
-    .then((card) => res.send({ data: card }))
+  Card.create({ name, link, owner })
+    .then((card) => res.send( card ))
     .catch((err) => {
       if (err.name === 'ValidationError') {
         next(new BadRequestError('Введены некорректные данные'));
@@ -28,11 +30,11 @@ module.exports.createCard = (req, res, next) => {
 module.exports.deleteCard = (req, res, next) => {
   Card.findById(req.params.cardId)
     .then((card) => {
-      if (card.owner !== req.user._id) {
-        throw new ForbiddenError('Вы не можете удалить карточку другого пользователя');
-      } else {
+      if (card.owner.equals(req.user._id)) {
         card.remove();
         return res.status(200).send({ message: 'Карточка успешно удалена' });
+      } else {
+        throw new ForbiddenError('Вы не можете удалить карточку другого пользователя');
       }
     })
     .catch((err) => {
@@ -51,7 +53,7 @@ module.exports.likeCard = (req, res, next) => {
     { new: true })
     .then((card) => {
       if (card) {
-        return res.status(200).send({ data: card });
+        return res.status(200).send(card);
       }
       throw new NotFoundError('Такой карточки не существует');
     })
@@ -73,7 +75,8 @@ module.exports.dislikeCard = (req, res, next) => {
       if (!card) {
         throw new NotFoundError('Такой карточки не существует');
       }
-      return res.status(200).send({ data: card });
+      console.log(card)
+      return res.status(200).send(card);
     })
     .catch((err) => {
       if (err.name === 'CastError') {

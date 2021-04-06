@@ -6,7 +6,6 @@ import { CurrentUserContext } from '../contexts/CurrentUserContext';
 
 export default function Main(props) {
     const [isOnMouseOver, setOnMouseOver] = React.useState(false);
-
     const currentUser = React.useContext(CurrentUserContext);
 
     function onMouseOverAvatar() {
@@ -40,7 +39,7 @@ export default function Main(props) {
                 card={card}
                 link={card.link}
                 name={card.name}
-                likes={card.likes.length}
+                likes={card.likes}
                 key={card._id}
                 onCardClick={props.onCardClick}
                 onCardLike={props.onCardLike}

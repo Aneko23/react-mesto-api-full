@@ -4,10 +4,15 @@ import { CurrentUserContext } from '../contexts/CurrentUserContext';
 
 export default function Card(props) {
     const currentUser = React.useContext(CurrentUserContext);
-    const isOwn = props.card.owner._id === currentUser._id;
 
-    const isLiked = props.card.likes.some(i => i._id === currentUser._id);
+    const isOwn = (props.card.owner._id || props.card.owner) === currentUser._id;
 
+    function checkElement (elem) {
+        return elem === currentUser._id
+    }
+    
+    const isLiked = props.card.likes.some( checkElement );
+    
     function handleClick() {
         props.onCardClick(props.card);
       }  
@@ -29,7 +34,7 @@ export default function Card(props) {
                     <h3 className="element__name">{props.name}</h3>
                         <div className="element__likes">
                             <button type="button" className={`button-like ${isLiked && 'button-like_active'}`} onClick={handleLikeClick} />
-                            <p className= "like-counter">{props.likes}</p>
+                            <p className= "like-counter">{props.likes.length}</p>
                         </div>
                 </div>
             </li> 

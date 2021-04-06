@@ -32,8 +32,23 @@ module.exports.getProfile = (req, res, next) => {
 
 // Получение данных пользователя
 module.exports.getMyProfile = (req, res) => {
-  req.params.id = req.user._id;
-  this.getProfile(req, res);
+  //req.params.id = req.user._id;
+  //this.getProfile(req, res);
+  User.findById(req.user._id)
+  .then((user) => {
+    if (!user) {
+      throw new NotFoundError('Нет пользователя с таким id');
+    }
+    return res.status(200).send(user);
+  })
+  .catch((err) => {
+    if (err.name === 'CastError') {
+      next(new BadRequestError('Id пользователя введён неверно'));
+    } else {
+      next(err);
+    }
+  });
+
 };
 
 // Создание нового профиля
@@ -45,11 +60,11 @@ module.exports.createProfile = (req, res, next) => {
   }
   bcrypt.hash(password, 10)
     .then((hash) => User.create({
-      email: email,
-      password: hash,
-      name: name,
-      about: about,
-      avatar: avatar,
+      name,
+      about,
+      avatar,
+      email,
+      password: hash
     }))
     .then((user) => res.send({ data: user }))
     .catch((err) => {
@@ -63,6 +78,7 @@ module.exports.createProfile = (req, res, next) => {
 
 // Обновление существующего профиля
 module.exports.updateProfile = (req, res, next) => {
+  console.log(req.user._id)
   const { name, about } = req.body;
   User.findByIdAndUpdate(
     req.user._id,
@@ -73,7 +89,7 @@ module.exports.updateProfile = (req, res, next) => {
       if (!user) {
         throw new NotFoundError('Нет пользователя с таким id');
       }
-      return res.status(200).send({ data: user });
+      return res.status(200).send( user );
     })
     .catch((err) => {
       if (err.name === 'ValidationError') {
@@ -96,7 +112,7 @@ module.exports.updateAvatar = (req, res, next) => {
       if (!user) {
         throw new NotFoundError('Нет пользователя с таким id');
       }
-      return res.status(200).send({ data: user });
+      return res.status(200).send( user );
     })
     .catch((err) => {
       if (err.name === 'ValidationError') {
@@ -119,7 +135,7 @@ module.exports.login = (req, res, next) => {
         { expiresIn: '7d' },
       );
       // вернём токен
-      res.send({ token });
+      res.send({ token, user });
     })
     .catch((err) => {
       if (err.name === 'Error') {
