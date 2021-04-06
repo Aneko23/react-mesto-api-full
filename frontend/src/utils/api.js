@@ -109,7 +109,7 @@ class Api {
 const token = localStorage.getItem('jwt');
 
 const api = new Api ({
-    adress: 'http://localhost:3000',
+    adress: 'http://178.154.202.182:3000',
     token: `Bearer ${token}`
 }) 
 

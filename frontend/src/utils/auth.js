@@ -1,4 +1,4 @@
-const BASE_URL = 'http://localhost:3000';
+const BASE_URL = 'http://178.154.202.182:3000';
 
 export const register = (password, email) => {
     return fetch(`${BASE_URL}/signup`, {

@@ -14,7 +14,6 @@ const { PORT = 3000 } = process.env;
 
 const cors = require('cors');
 
-/*
 const options = {
 origin: [
 'http://localhost:3000/',
@@ -29,9 +28,8 @@ credentials: true,
 };
 
 app.use('*', cors(options));
-*/
 
-app.use(cors());
+//app.use(cors());
 
 // app.use(express.static('public'));
 
