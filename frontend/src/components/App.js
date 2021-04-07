@@ -99,8 +99,8 @@ export default function App() {
   React.useEffect(() => {
     api.getUserProfile()
     .then(res => {
-      setCurrentUser(res.data);
-      setUserEmail(res.data.email);
+      setCurrentUser(res);
+      setUserEmail(res.email);
     })
     .catch((error) => {
         console.log(`Возникла ошибка: ${error}`)
@@ -161,6 +161,7 @@ export default function App() {
                 //Обновляю список карточек
                 api.getCards()
                 .then(res => {
+                  console.log(res)
                   setCards(res)
                 })
                 .catch((error) => {

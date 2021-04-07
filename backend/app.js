@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParcer = require('body-parser');
@@ -14,22 +15,7 @@ const { PORT = 3000 } = process.env;
 
 const cors = require('cors');
 
-const options = {
-origin: [
-'http://localhost:3000/',
-'http://localhost:3001/',
-'http://localhost:8080'
-],
-methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE'],
-preflightContinue: false,
-optionsSuccessStatus: 204,
-allowedHeaders: ['Content-Type', 'origin', 'Authorization', 'Access-Control-Allow-Origin'],
-credentials: true,
-};
-
-app.use('*', cors(options));
-
-//app.use(cors());
+app.use(cors());
 
 // app.use(express.static('public'));
 
