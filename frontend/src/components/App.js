@@ -233,6 +233,7 @@ export default function App() {
 
 //Функция добавления новой карточки
   function handleAddPlaceSubmit(newCard) {
+    console.log(newCard)
     api.addCard(newCard.name, newCard.link)
         .then(card => {
             setCards([card, ...cards]);

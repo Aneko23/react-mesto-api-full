@@ -79,7 +79,6 @@ module.exports.createProfile = (req, res, next) => {
 
 // Обновление существующего профиля
 module.exports.updateProfile = (req, res, next) => {
-  console.log(req.user._id)
   const { name, about } = req.body;
   User.findByIdAndUpdate(
     req.user._id,

@@ -38,7 +38,7 @@ class Api {
         
 
     getCards() {
-        return fetch(`${this._adress}/cards/`, {
+        return fetch(`${this._adress}/cards`, {
             method: 'GET',
             headers: {
                 authorization: this._token
@@ -109,7 +109,7 @@ class Api {
 const token = localStorage.getItem('jwt');
 
 const api = new Api ({
-    adress: 'http://api.mesto.aneko23.nomoredomains.icu',
+    adress: 'http://localhost:3000',
     token: `Bearer ${token}`
 }) 
 
