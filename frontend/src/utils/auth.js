@@ -1,4 +1,4 @@
-const BASE_URL = `${window.location.protocol}${'//api.mesto.aneko23.nomoredomains.icu' || '//localhost:3001'}`;
+const BASE_URL = '//api.mesto.aneko23.nomoredomains.icu';
 
 export const register = (password, email) => {
     return fetch(`${BASE_URL}/signup`, {
