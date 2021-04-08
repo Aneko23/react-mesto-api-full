@@ -15,12 +15,9 @@ module.exports.getCards = (req, res) => {
 module.exports.createCard = (req, res, next) => {
   const owner = req.user._id;
   const { name, link } = req.body;
-  console.log(owner)
-  console.log({ name, link })
   Card.create({ name, link, owner })
     .then((card) => res.send( card ))
     .catch((err) => {
-      console.log(err)
       if (err.name === 'ValidationError') {
         next(new BadRequestError('Введены некорректные данные'));
       } else {

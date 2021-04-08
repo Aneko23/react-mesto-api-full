@@ -69,7 +69,6 @@ export default function App() {
   const handleLogin = (email, password) => {
     auth.authorize(email, password)
         .then((data) => {
-          console.log(data)
             localStorage.setItem('jwt', data.token);
             setLoggedIn(true);
             setUserEmail(email);
@@ -83,15 +82,22 @@ export default function App() {
 
   // Функция проверки токена
   const tokenCheck = () => {
-    const jwt = localStorage.getItem('jwt');
+    const jwt = `${localStorage.getItem('jwt')}`;
+    console.log(jwt)
     if (jwt) {
-      auth.getContent(jwt).then((res) => {
+      auth.getContent(jwt)
+      .then((res) => {
         if (res){
+          setCurrentUser(res);
+          setUserEmail(res.email);
           history.push('/cards');
         }
-      }); 
+      })
+      .catch((error) => {
+          console.log(error);
+    });
     } else {
-      console.log({message: 'Токен не передан или передан не в том формате'})
+        console.log('Авторизуйся')
     }
   }
 
@@ -131,7 +137,6 @@ export default function App() {
 
 //Получаю гелерею с сохранёнными карточками
     React.useEffect(() => {
-      if(loggedIn) {
         api.getCards()
         .then(res => {
           setCards(res.reverse())
@@ -139,7 +144,6 @@ export default function App() {
         .catch((error) => {
             console.log(`Возникла ошибка: ${error}`)
         })
-      }
     }, []);
   
 //Функция для клика по сердечку
