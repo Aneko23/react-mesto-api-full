@@ -97,14 +97,16 @@ export default function App() {
 
   //Получаю данные пользователя с сервера
   React.useEffect(() => {
-    api.getUserProfile()
-    .then(res => {
-      setCurrentUser(res);
-      setUserEmail(res.email);
-    })
-    .catch((error) => {
-        console.log(`Возникла ошибка: ${error}`)
-    })
+    if (loggedIn) {
+      api.getUserProfile()
+      .then(res => {
+        setCurrentUser(res);
+        setUserEmail(res.email);
+      })
+      .catch((error) => {
+          console.log(`Возникла ошибка: ${error}`)
+      })
+    }
   }, []);
 
   // Функция выхода из приложения
@@ -129,13 +131,15 @@ export default function App() {
 
 //Получаю гелерею с сохранёнными карточками
     React.useEffect(() => {
-      api.getCards()
-      .then(res => {
-        setCards(res.reverse())
-      })
-      .catch((error) => {
-          console.log(`Возникла ошибка: ${error}`)
-      })
+      if(loggedIn) {
+        api.getCards()
+        .then(res => {
+          setCards(res.reverse())
+        })
+        .catch((error) => {
+            console.log(`Возникла ошибка: ${error}`)
+        })
+      }
     }, []);
   
 //Функция для клика по сердечку
@@ -285,9 +289,9 @@ export default function App() {
             </Route>
             <Route>
               {loggedIn ? <Redirect to="/cards" /> : <Redirect to="/sign-in" />}
-            </Route>
+            </Route> 
             <Footer />
-            </div>
+          </div>
       </div>
       </Switch>
     </CurrentUserContext.Provider>

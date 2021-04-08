@@ -38,7 +38,7 @@ class Api {
         
 
     getCards() {
-        return fetch(`${this._adress}/cards`, {
+        return fetch(`${this._adress}/cards/`, {
             method: 'GET',
             headers: {
                 authorization: this._token

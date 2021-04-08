@@ -3,8 +3,6 @@ import { Link, Switch, Route } from "react-router-dom";
 import Logo from '../images/logo.svg';
 
 export default function Header (props) {
-
-    //console.log(props.userEmail)
     const logOut = () => {
         props.handleLogOut();
     }

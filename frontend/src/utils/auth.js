@@ -1,4 +1,4 @@
-const BASE_URL = `${window.location.protocol}${process.env.REACT_APP_API_URL || '//localhost:3000'}`;
+const BASE_URL = 'http://api.mesto.aneko23.nomoredomains.icu';
 
 export const register = (password, email) => {
     return fetch(`${BASE_URL}/signup`, {

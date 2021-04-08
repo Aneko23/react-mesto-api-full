@@ -61,9 +61,8 @@ app.use(errors());
 
 // Централизованный обработчик ошибок
 app.use((err, req, res, next) => {
-  const { statusCode = 500, message } = err;
-
-  res.status(statusCode).send({ message: statusCode === 500 ? 'На сервере произошла ошибка' : message });
+  res.status(err.status || 500).send({ message: `Произошла ошибка : ${err.message}` } || 'Ошибка на сервере');
+  next();
 });
 
 app.listen(PORT, () => {
