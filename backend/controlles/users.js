@@ -33,8 +33,6 @@ module.exports.getProfile = (req, res, next) => {
 
 // Получение данных пользователя
 module.exports.getMyProfile = (req, res) => {
-  //req.params.id = req.user._id;
-  //this.getProfile(req, res);
   User.findById(req.user._id)
   .then((user) => {
     if (!user) {

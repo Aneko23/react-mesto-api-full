@@ -1,4 +1,4 @@
-const BASE_URL = 'http://api.mesto.aneko23.nomoredomains.icu';
+const BASE_URL = 'https://api.mesto.aneko23.nomoredomains.icu';
 
 export const register = (password, email) => {
     return fetch(`${BASE_URL}/signup`, {

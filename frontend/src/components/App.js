@@ -33,7 +33,7 @@ export default function App() {
   const [userEmail, setUserEmail] = React.useState('')
 
   const history = useHistory();
-
+  
   // Проверяю токен прикаждом обновлении
   React.useEffect(() => {
     tokenCheck();
@@ -83,7 +83,6 @@ export default function App() {
   // Функция проверки токена
   const tokenCheck = () => {
     const jwt = `${localStorage.getItem('jwt')}`;
-    console.log(jwt)
     if (jwt) {
       auth.getContent(jwt)
       .then((res) => {

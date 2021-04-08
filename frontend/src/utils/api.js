@@ -109,7 +109,7 @@ class Api {
 const token = localStorage.getItem('jwt');
 
 const api = new Api ({
-    adress: 'http://api.mesto.aneko23.nomoredomains.icu',
+    adress: 'https://api.mesto.aneko23.nomoredomains.icu',
     token: `Bearer ${token}`
 }) 
 
