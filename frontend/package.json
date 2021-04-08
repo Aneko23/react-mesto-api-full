@@ -4,10 +4,12 @@
   "description": "Данное приложение разработано при помощи инструмента для разработки пользовательских интерфейсов React. Приложение представляет собой небольшую социальную сеть, где пользователи могут создавать свои профили и делиться любимыми фото и гиф-анимацией.",
   "main": "index.js",
   "scripts": {
-    "start": "react-scripts start"
+    "start": "react-scripts start",
+    "build": "react-scripts build"
   },
   "author": "",
   "license": "ISC",
+  "homepage": "./",
   "dependencies": {
     "cors": "^2.8.5",
     "react": "^17.0.2",
