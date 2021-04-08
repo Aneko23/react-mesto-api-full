@@ -17,7 +17,7 @@ const cors = require('cors');
 
 app.use(cors());
 
-app.use(express.static('build'));
+//app.use(express.static('build'));
 
 mongoose.connect('mongodb://localhost:27017/mestodb', {
   useNewUrlParser: true,
