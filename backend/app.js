@@ -4,16 +4,16 @@ const mongoose = require('mongoose');
 const bodyParcer = require('body-parser');
 const { celebrate, Joi } = require('celebrate');
 const { errors } = require('celebrate');
+const cors = require('cors');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 const usersRouter = require('./routes/users');
 const cardsRouter = require('./routes/cards');
 const { createProfile, login } = require('./controlles/users');
 const auth = require('./middlewares/auth');
+const NotFoundError = require('./error/not-found-error');
 
 const app = express();
 const { PORT = 3000 } = process.env;
-
-const cors = require('cors');
 
 app.use(cors());
 
@@ -39,15 +39,16 @@ app.get('/crash-test', () => {
 
 app.post('/signin', celebrate({
   body: Joi.object().keys({
-    email: Joi.string().required(),
+    email: Joi.string().required().email(),
     password: Joi.string().required().min(8),
   }),
 }), login);
 
 app.post('/signup', celebrate({
   body: Joi.object().keys({
-    email: Joi.string().required(),
+    email: Joi.string().required().email(),
     password: Joi.string().required().min(8),
+    avatar: Joi.string().uri(),
   }),
 }), createProfile);
 
@@ -57,7 +58,7 @@ app.use('/cards', auth, cardsRouter);
 
 // Если ввели несуществующий адрес
 app.use((req, res) => {
-  res.status(404).send({ message: 'Запрашиваемый ресурс не найден' });
+  throw new NotFoundError('Запрашиваемый ресурс не найден');
 });
 
 app.use(errorLogger);
@@ -67,7 +68,7 @@ app.use(errors());
 
 // Централизованный обработчик ошибок
 app.use((err, req, res, next) => {
-  res.status(err.status || 500).send({ message: `Произошла ошибка : ${err.message}` } || 'Ошибка на сервере');
+  res.status(err.statusCode || 500).send({ message: `${err.message}` } || 'Ошибка на сервере');
   next();
 });
 

@@ -5,6 +5,7 @@ const User = require('../models/user');
 const NotFoundError = require('../error/not-found-error');
 const BadRequestError = require('../error/bad-request-error');
 const UnauthorizedError = require('../error/unauthorized-error');
+const MongoError = require('../error/mongo-error');
 
 // Получение списка пользователей
 module.exports.getUsers = (req, res) => {
@@ -16,12 +17,8 @@ module.exports.getUsers = (req, res) => {
 // Получение данных определённого пользователя по id
 module.exports.getProfile = (req, res, next) => {
   User.findById(req.params.id)
-    .then((user) => {
-      if (!user) {
-        throw new NotFoundError('Нет пользователя с таким id');
-      }
-      return res.status(200).send({ data: user });
-    })
+    .orFail(new NotFoundError('Нет пользователя с таким id'))
+    .then((user) => res.status(200).send({ data: user }))
     .catch((err) => {
       if (err.name === 'CastError') {
         next(new BadRequestError('Id пользователя введён неверно'));
@@ -32,22 +29,17 @@ module.exports.getProfile = (req, res, next) => {
 };
 
 // Получение данных пользователя
-module.exports.getMyProfile = (req, res) => {
+module.exports.getMyProfile = (req, res, next) => {
   User.findById(req.user._id)
-  .then((user) => {
-    if (!user) {
-      throw new NotFoundError('Нет пользователя с таким id');
-    }
-    return res.status(200).send(user);
-  })
-  .catch((err) => {
-    if (err.name === 'CastError') {
-      next(new BadRequestError('Id пользователя введён неверно'));
-    } else {
-      next(err);
-    }
-  });
-
+    .orFail(new NotFoundError('Нет пользователя с таким id'))
+    .then((user) => res.status(200).send(user))
+    .catch((err) => {
+      if (err.name === 'CastError') {
+        next(new BadRequestError('Id пользователя введён неверно'));
+      } else {
+        next(err);
+      }
+    });
 };
 
 // Создание нового профиля
@@ -63,12 +55,14 @@ module.exports.createProfile = (req, res, next) => {
       about,
       avatar,
       email,
-      password: hash
+      password: hash,
     }))
-    .then((user) => res.send({ data: user }))
+    .then((user) => res.send({ Message: 'Пользователь успешно создан' }))
     .catch((err) => {
       if (err.name === 'ValidationError') {
         next(new BadRequestError('Введены некорректные данные пользователя'));
+      } else if (err.name === 'MongoError') {
+        next(new MongoError('Такой пользователь уже зарегистрирован'));
       } else {
         next(err);
       }
@@ -87,7 +81,7 @@ module.exports.updateProfile = (req, res, next) => {
       if (!user) {
         throw new NotFoundError('Нет пользователя с таким id');
       }
-      return res.status(200).send( user );
+      return res.status(200).send(user);
     })
     .catch((err) => {
       if (err.name === 'ValidationError') {
@@ -110,7 +104,7 @@ module.exports.updateAvatar = (req, res, next) => {
       if (!user) {
         throw new NotFoundError('Нет пользователя с таким id');
       }
-      return res.status(200).send( user );
+      return res.status(200).send(user);
     })
     .catch((err) => {
       if (err.name === 'ValidationError') {
@@ -129,8 +123,8 @@ module.exports.login = (req, res, next) => {
       const token = jwt.sign(
         { _id: user._id },
         NODE_ENV === 'production' ? JWT_SECRET : 'dev-secret',
-        { expiresIn: '7d' }
-    );
+        { expiresIn: '7d' },
+      );
       // вернём токен
       res.send({ token, user });
     })

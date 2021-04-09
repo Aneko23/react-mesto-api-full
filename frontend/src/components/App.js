@@ -168,8 +168,7 @@ export default function App() {
                 //Обновляю список карточек
                 api.getCards()
                 .then(res => {
-                  console.log(res)
-                  setCards(res)
+                  setCards(res.reverse())
                 })
                 .catch((error) => {
                    console.log(`Возникла ошибка: ${error}`)

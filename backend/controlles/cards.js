@@ -16,7 +16,7 @@ module.exports.createCard = (req, res, next) => {
   const owner = req.user._id;
   const { name, link } = req.body;
   Card.create({ name, link, owner })
-    .then((card) => res.send( card ))
+    .then((card) => res.send(card))
     .catch((err) => {
       if (err.name === 'ValidationError') {
         next(new BadRequestError('Введены некорректные данные'));
@@ -29,13 +29,13 @@ module.exports.createCard = (req, res, next) => {
 // Удаление карточки
 module.exports.deleteCard = (req, res, next) => {
   Card.findById(req.params.cardId)
+    .orFail(new NotFoundError('Такой карточки не существует'))
     .then((card) => {
       if (card.owner.equals(req.user._id)) {
         card.remove();
         return res.status(200).send({ message: 'Карточка успешно удалена' });
-      } else {
-        throw new ForbiddenError('Вы не можете удалить карточку другого пользователя');
       }
+      throw new ForbiddenError('Вы не можете удалить карточку другого пользователя');
     })
     .catch((err) => {
       if (err.name === 'CastError') {
@@ -51,12 +51,8 @@ module.exports.likeCard = (req, res, next) => {
   Card.findByIdAndUpdate(req.params.cardId,
     { $addToSet: { likes: req.user._id } },
     { new: true })
-    .then((card) => {
-      if (card) {
-        return res.status(200).send(card);
-      }
-      throw new NotFoundError('Такой карточки не существует');
-    })
+    .orFail(new NotFoundError('Такой карточки не существует'))
+    .then((card) => res.status(200).send(card))
     .catch((err) => {
       if (err.name === 'CastError') {
         next(new BadRequestError('Id карточки указан неверно'));
@@ -71,12 +67,8 @@ module.exports.dislikeCard = (req, res, next) => {
   Card.findByIdAndUpdate(req.params.cardId,
     { $pull: { likes: req.user._id } },
     { new: true })
-    .then((card) => {
-      if (!card) {
-        throw new NotFoundError('Такой карточки не существует');
-      }
-      return res.status(200).send(card);
-    })
+    .orFail(new NotFoundError('Такой карточки не существует'))
+    .then((card) => res.status(200).send(card))
     .catch((err) => {
       if (err.name === 'CastError') {
         next(new BadRequestError('Id карточки указан неверно'));
